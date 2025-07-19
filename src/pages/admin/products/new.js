@@ -1,110 +1,120 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { supabase } from "@/lib/supabaseClient";
+import Head from "next/head";
 
-export default function AddProduct() {
+export default function AdminProductNew() {
   const router = useRouter();
-  const [product, setProduct] = useState({ name: "", category: "", price: "", image_url: "", description: "" });
-  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    price: "",
+    stock: "",
+    category: "",
+    description: "",
+    image_url: ""
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // Check authentication on client-side
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        router.push("/admin/login");
-      }
-    });
-  }, [router]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSaving(true);
-    const { error } = await supabase.from("products").insert({
-      name: product.name,
-      category: product.category,
-      price: product.price,
-      image_url: product.image_url,
-      description: product.description
-    });
-    setSaving(false);
-    if (error) {
-      alert("Gagal menambah produk: " + error.message);
-    } else {
-      router.push("/admin/products");
-    }
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProduct(prev => ({ ...prev, [name]: value }));
+  // Dummy submit, ganti dengan Supabase insert
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    // Validasi simple
+    if (!form.name || !form.price || !form.stock) {
+      setError("Nama, harga, dan stok wajib diisi.");
+      setLoading(false);
+      return;
+    }
+    setTimeout(() => {
+      setLoading(false);
+      router.push("/admin/product");
+    }, 900);
   };
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-8">
-      <h1 className="text-xl font-bold mb-4">Tambah Produk</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Nama Produk</label>
+    <>
+      <Head>
+        <title>Tambah Produk | PasarSegar Admin</title>
+      </Head>
+      <main className="min-h-screen bg-green-50 flex items-center justify-center py-12 animate-fadeIn">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white max-w-lg w-full rounded-2xl shadow-lg px-8 py-10 flex flex-col gap-5"
+        >
+          <h1 className="text-2xl font-bold text-green-700 mb-2 text-center">
+            Tambah Produk Baru
+          </h1>
           <input
             name="name"
-            type="text"
-            className="w-full border px-3 py-2 rounded"
-            value={product.name}
-            onChange={handleInputChange}
+            placeholder="Nama Produk"
+            className="border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+            value={form.name}
+            onChange={handleChange}
             required
           />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Kategori</label>
+          <div className="flex gap-3">
+            <input
+              name="price"
+              type="number"
+              min={0}
+              placeholder="Harga (Rp)"
+              className="border border-gray-300 px-4 py-3 rounded-lg w-1/2 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              value={form.price}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="stock"
+              type="number"
+              min={0}
+              placeholder="Stok"
+              className="border border-gray-300 px-4 py-3 rounded-lg w-1/2 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              value={form.stock}
+              onChange={handleChange}
+              required
+            />
+          </div>
           <input
             name="category"
-            type="text"
-            className="w-full border px-3 py-2 rounded"
-            value={product.category}
-            onChange={handleInputChange}
-            required
+            placeholder="Kategori (sayur/daging)"
+            className="border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+            value={form.category}
+            onChange={handleChange}
           />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Harga (Rp)</label>
-          <input
-            name="price"
-            type="number"
-            className="w-full border px-3 py-2 rounded"
-            value={product.price}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Image URL</label>
           <input
             name="image_url"
-            type="text"
-            className="w-full border px-3 py-2 rounded"
-            value={product.image_url}
-            onChange={handleInputChange}
-            placeholder="https://example.com/image.jpg"
+            placeholder="URL Gambar Produk"
+            className="border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+            value={form.image_url}
+            onChange={handleChange}
           />
-        </div>
-        <div className="mb-6">
-          <label className="block text-sm font-medium mb-1">Deskripsi</label>
           <textarea
             name="description"
-            className="w-full border px-3 py-2 rounded"
-            value={product.description}
-            onChange={handleInputChange}
-            rows="3"
+            placeholder="Deskripsi Produk"
+            rows={2}
+            className="border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+            value={form.description}
+            onChange={handleChange}
           />
-        </div>
-        <button 
-          type="submit" 
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" 
-          disabled={saving}
-        >
-          {saving ? "Menambahkan..." : "Tambah Produk"}
-        </button>
-      </form>
-    </div>
+          {error && (
+            <div className="text-red-600 text-center text-sm -mt-2">{error}</div>
+          )}
+          <button
+            type="submit"
+            disabled={loading}
+            className={`bg-green-600 text-white py-3 rounded-lg font-semibold shadow hover:bg-green-700 hover:scale-105 transition-transform duration-150 ${
+              loading ? "opacity-60 cursor-not-allowed" : ""
+            }`}
+          >
+            {loading ? "Menyimpan..." : "Simpan"}
+          </button>
+        </form>
+      </main>
+    </>
   );
 }

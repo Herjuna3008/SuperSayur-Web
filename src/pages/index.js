@@ -1,139 +1,111 @@
+import Head from "next/head";
 import Link from "next/link";
+import ProductCard from "@/components/ProductCard";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
+// Dummy produk untuk tampilan rekomendasi di home (ganti sesuai kebutuhan)
+const recommendedProducts = [
+  {
+    id: 1,
+    name: "Wortel Segar 1kg",
+    price: 20000,
+    stock: 12,
+    description: "Wortel pilihan, segar setiap hari.",
+    image_url: "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 2,
+    name: "Daging Sapi Premium 1kg",
+    price: 110000,
+    stock: 5,
+    description: "Daging sapi segar dan berkualitas.",
+    image_url: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 3,
+    name: "Bayam Segar",
+    price: 8000,
+    stock: 30,
+    description: "Bayam hidroponik segar untuk keluarga.",
+    image_url: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80"
+  }
+];
 
 export default function Home() {
   return (
-    <div>
+    <>
+      <Head>
+        <title>SuperSayur - Supplier Sayur & Daging Segar</title>
+      </Head>
+      <Navbar />
       {/* Hero Section */}
-      <div className="bg-green-600 text-white">
-        <div className="max-w-6xl mx-auto px-4 py-20 flex flex-col items-center text-center">
-          <h1 className="text-4xl font-bold mb-4 animate-fadeIn">SuperSayur</h1>
-          <p className="text-xl mb-6 animate-fadeIn">
-            Supplier Sayur &amp; Daging Segar untuk Kebutuhan Anda
+      <section className="bg-gradient-to-b from-green-600 to-green-500 text-white py-20 animate-fadeIn">
+        <div className="max-w-4xl mx-auto px-4 flex flex-col items-center text-center">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 drop-shadow-lg">SuperSayur</h1>
+          <p className="text-xl md:text-2xl mb-6 font-medium max-w-2xl">
+            Supplier Sayur & Daging Segar untuk Hotel, Restoran, dan UMKM. Pengiriman cepat dan harga bersahabat.
           </p>
-          <Link 
-            href="/products" 
-            className="bg-white text-green-700 font-semibold px-6 py-3 rounded shadow hover:bg-gray-100 transition"
+          <Link
+            href="/product"
+            className="bg-white text-green-700 font-semibold px-7 py-3 rounded-full shadow hover:scale-105 hover:bg-green-100 transition-transform duration-300"
           >
             Belanja Sekarang
           </Link>
         </div>
-      </div>
+      </section>
 
-      {/* Keunggulan (Advantages) Section */}
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold text-center mb-8">
-          Mengapa Memilih Super Sayur?
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div className="p-4 bg-white rounded shadow animate-fadeIn">
-            <h3 className="font-semibold text-lg mb-2">Produk Segar</h3>
-            <p className="text-gray-700">
-              Sayur dan daging dipasok setiap hari, menjamin kesegaran maksimal.
-            </p>
-          </div>
-          <div className="p-4 bg-white rounded shadow animate-fadeIn">
-            <h3 className="font-semibold text-lg mb-2">Pengiriman Cepat</h3>
-            <p className="text-gray-700">
-              Pengiriman cepat dan tepat waktu ke lokasi Anda setiap hari.
-            </p>
-          </div>
-          <div className="p-4 bg-white rounded shadow animate-fadeIn">
-            <h3 className="font-semibold text-lg mb-2">Harga Terjangkau</h3>
-            <p className="text-gray-700">
-              Harga bersaing langsung dari petani dan distributor terpercaya.
-            </p>
+      {/* Keunggulan Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-green-700 text-center mb-10 animate-fadeIn">Mengapa Memilih SuperSayur?</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-8 rounded-2xl shadow-md flex flex-col items-center animate-fadeIn">
+              <div className="text-4xl mb-3">🥦</div>
+              <div className="font-bold mb-1">Produk Segar</div>
+              <p className="text-gray-600 text-sm text-center">
+                Semua produk dikirim dalam keadaan segar, langsung dari petani dan distributor terpercaya.
+              </p>
+            </div>
+            <div className="bg-white p-8 rounded-2xl shadow-md flex flex-col items-center animate-fadeIn delay-150">
+              <div className="text-4xl mb-3">🚚</div>
+              <div className="font-bold mb-1">Pengiriman Cepat</div>
+              <p className="text-gray-600 text-sm text-center">
+                Jangkauan pengiriman luas, selalu tepat waktu dan aman sampai tujuan.
+              </p>
+            </div>
+            <div className="bg-white p-8 rounded-2xl shadow-md flex flex-col items-center animate-fadeIn delay-300">
+              <div className="text-4xl mb-3">💰</div>
+              <div className="font-bold mb-1">Harga Terjangkau</div>
+              <p className="text-gray-600 text-sm text-center">
+                Harga kompetitif, cocok untuk kebutuhan rumah tangga, UMKM, maupun skala besar.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Preview Produk Section */}
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold text-center mb-8">Produk Unggulan</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {/* Example product cards (static examples; actual products are on the Products page) */}
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <img 
-              src="https://source.unsplash.com/400x300/?vegetable" 
-              alt="Sayuran" 
-              className="h-40 w-full object-cover" 
-            />
-            <div className="p-4">
-              <h3 className="font-semibold text-lg">Wortel Segar 1kg</h3>
-              <p className="font-semibold text-green-700 mb-2">Rp 20.000</p>
-              <a 
-                href="https://wa.me/62881010075477?text=Saya ingin memesan Wortel Segar 1kg" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block text-center bg-green-600 text-white py-2 rounded hover:bg-green-700"
-              >
-                Pesan via WhatsApp
-              </a>
-            </div>
+      {/* Rekomendasi Produk */}
+      <section className="py-16 bg-white">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-green-700 text-center mb-10 animate-fadeIn">Produk Pilihan Kami</h2>
+          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+            {recommendedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <img 
-              src="https://source.unsplash.com/400x300/?meat" 
-              alt="Daging" 
-              className="h-40 w-full object-cover" 
-            />
-            <div className="p-4">
-              <h3 className="font-semibold text-lg">Daging Sapi Premium 500gr</h3>
-              <p className="font-semibold text-green-700 mb-2">Rp 75.000</p>
-              <a 
-                href="https://wa.me/62881010075477?text=Saya ingin memesan Daging Sapi Premium 500gr" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block text-center bg-green-600 text-white py-2 rounded hover:bg-green-700"
-              >
-                Pesan via WhatsApp
-              </a>
-            </div>
-          </div>
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <img 
-              src="https://source.unsplash.com/400x300/?vegetables" 
-              alt="Sayuran" 
-              className="h-40 w-full object-cover" 
-            />
-            <div className="p-4">
-              <h3 className="font-semibold text-lg">Paket Sayur Campur</h3>
-              <p className="font-semibold text-green-700 mb-2">Rp 50.000</p>
-              <a 
-                href="https://wa.me/62881010075477?text=Saya ingin memesan Paket Sayur Campur" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block text-center bg-green-600 text-white py-2 rounded hover:bg-green-700"
-              >
-                Pesan via WhatsApp
-              </a>
-            </div>
-          </div>
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <img 
-              src="https://source.unsplash.com/400x300/?chicken" 
-              alt="Daging Ayam" 
-              className="h-40 w-full object-cover" 
-            />
-            <div className="p-4">
-              <h3 className="font-semibold text-lg">Daging Ayam Fillet 1kg</h3>
-              <p className="font-semibold text-green-700 mb-2">Rp 40.000</p>
-              <a 
-                href="https://wa.me/62881010075477?text=Saya ingin memesan Daging Ayam Fillet 1kg" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block text-center bg-green-600 text-white py-2 rounded hover:bg-green-700"
-              >
-                Pesan via WhatsApp
-              </a>
-            </div>
+          <div className="flex justify-center mt-10">
+            <Link
+              href="/product"
+              className="inline-block bg-green-600 text-white px-8 py-3 rounded-full font-semibold shadow hover:bg-green-700 hover:scale-105 transition-transform"
+            >
+              Lihat Semua Produk &rarr;
+            </Link>
           </div>
         </div>
-        <div className="text-center mt-8">
-          <Link href="/products" className="text-green-700 font-medium hover:underline">
-            Lihat semua produk &rarr;
-          </Link>
-        </div>
-      </div>
-    </div>
+      </section>
+
+      <Footer />
+    </>
   );
 }

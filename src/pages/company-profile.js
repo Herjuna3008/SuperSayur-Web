@@ -1,20 +1,40 @@
+import Head from "next/head";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
 export default function CompanyProfile() {
-    return (
-      <div className="max-w-5xl mx-auto px-4 py-12">
-        <h1 className="text-2xl font-bold mb-6">Company Profile</h1>
-        <p className="mb-4">
-          Super Sayur adalah pemasok sayur dan daging segar terpercaya yang berbasis di Jakarta. Berdiri sejak 2023, kami berkomitmen untuk menyediakan bahan pangan berkualitas tinggi langsung dari petani dan peternak lokal.
-        </p>
-        <p className="mb-4">
-          Dengan tim profesional dan jaringan distribusi yang luas, PasarSegar melayani berbagai restoran, hotel, dan rumah tangga. Kami memastikan setiap produk yang kami kirimkan telah melalui kontrol kualitas yang ketat.
-        </p>
-        <p className="mb-4">
-          Misi kami adalah mendukung gaya hidup sehat dengan menyediakan bahan makanan yang segar, higienis, dan bergizi. Kami juga berupaya membangun kemitraan yang baik dengan petani lokal untuk membantu perekonomian komunitas.
-        </p>
-        <p>
-          Kepercayaan dan kepuasan pelanggan adalah prioritas kami, dan kami selalu siap berinovasi untuk meningkatkan layanan.
-        </p>
-      </div>
-    );
-  }
-  
+  return (
+    <>
+      <Head>
+        <title>Company Profile | SuperSayur</title>
+      </Head>
+      <Navbar />
+      <main className="min-h-screen bg-white py-16 animate-fadeIn">
+        <section className="max-w-3xl mx-auto px-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-green-700 mb-6">Company Profile</h1>
+          <p className="text-lg text-gray-700 leading-relaxed mb-6">
+            <span className="font-semibold text-green-700">SuperSayur</span> adalah supplier bahan pangan segar dan berkualitas, melayani kebutuhan hotel, restoran, café, UMKM, hingga rumah tangga dengan pengiriman cepat dan harga kompetitif. 
+          </p>
+          <div className="space-y-5">
+            <p>
+              Berdiri sejak 2024, kami telah bekerja sama dengan para petani lokal dan distributor utama untuk memastikan seluruh produk kami selalu segar dan aman konsumsi. 
+            </p>
+            <p>
+              Visi kami adalah menjadi solusi utama untuk kebutuhan bahan baku makanan dalam skala besar maupun retail, dengan pelayanan yang profesional dan ramah.
+            </p>
+            <p>
+              <span className="font-semibold text-green-700">Nilai utama kami:</span>
+              <ul className="list-disc pl-6 text-gray-700 mt-2">
+                <li>Produk berkualitas, selalu segar</li>
+                <li>Jangkauan pengiriman luas dan cepat</li>
+                <li>Harga bersaing dan transparan</li>
+                <li>Layanan pelanggan prioritas</li>
+              </ul>
+            </p>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+}
