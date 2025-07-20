@@ -3,7 +3,6 @@ import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 
 const navLinks = [
-  { href: "/", label: "Beranda" },
   { href: "/company-profile", label: "Company Profile" },
   { href: "/faq", label: "FAQ" },
   { href: "/jangkauan-pengiriman", label: "Jangkauan" },
