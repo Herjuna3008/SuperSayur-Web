@@ -1,35 +1,47 @@
+import Head from "next/head";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import FAQItem from "@/components/FAQItem";
 
-export default function FAQPage() {
-  const faqs = [
-    {
-      question: "Bagaimana cara memesan produk di SuperSayur?",
-      answer: "Anda dapat memesan melalui website dengan menekan tombol WhatsApp pada produk yang dipilih, atau langsung menghubungi kami via WhatsApp ke nomor kontak resmi PasarSegar."
-    },
-    {
-      question: "Apakah produk yang dijual selalu segar?",
-      answer: "Ya, kami memastikan semua sayur dan daging yang dijual di SuperSayur adalah produk segar yang dipasok di hari yang sama."
-    },
-    {
-      question: "Kapan produk akan dikirim setelah pemesanan?",
-      answer: "Produk akan dikirim pada hari yang sama untuk pemesanan sebelum jam 17:00. Pemesanan setelah jam tersebut akan dikirim keesokan harinya."
-    },
-    {
-      question: "Apa saja metode pembayaran yang diterima?",
-      answer: "Kami menerima pembayaran melalui transfer bank, e-wallet, dan pembayaran tunai (COD) saat pengiriman."
-    },
-    {
-      question: "Bagaimana jika produk yang diterima tidak sesuai atau rusak?",
-      answer: "Silakan hubungi layanan pelanggan kami melalui WhatsApp segera. Kami akan membantu mengganti produk atau memberikan solusi terbaik untuk Anda."
-    }
-  ];
+// Contoh data FAQ (nanti bisa fetch dari Supabase)
+const FAQ_LIST = [
+  {
+    question: "Apakah pengiriman bisa ke seluruh Indonesia?",
+    answer:
+      "Saat ini pengiriman kami mencakup area Jabodetabek, Bandung, dan kota-kota besar di Pulau Jawa. Hubungi admin untuk info pengiriman luar pulau.",
+  },
+  {
+    question: "Apakah harga bisa negosiasi untuk pembelian dalam jumlah besar?",
+    answer:
+      "Tentu! Untuk pemesanan dalam skala besar atau kebutuhan vendor, silakan hubungi kami langsung untuk penawaran harga khusus.",
+  },
+  {
+    question: "Bagaimana cara pesan produk di website ini?",
+    answer:
+      "Pilih produk yang diinginkan, lalu klik tombol 'Pesan via WhatsApp'. Tim kami akan memproses pesanan Anda secepatnya.",
+  },
+];
 
+export default function FAQPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="text-2xl font-bold mb-6">FAQ</h1>
-      {faqs.map((faq, index) => (
-        <FAQItem key={index} question={faq.question} answer={faq.answer} />
-      ))}
-    </div>
+    <>
+      <Head>
+        <title>FAQ | SuperSayur</title>
+      </Head>
+      <Navbar />
+      <main className="min-h-screen bg-white py-16 animate-fadeIn">
+        <section className="max-w-2xl mx-auto px-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-green-700 mb-6 text-center">
+            Pertanyaan yang Sering Diajukan (FAQ)
+          </h1>
+          <div className="divide-y divide-gray-200">
+            {FAQ_LIST.map((item, idx) => (
+              <FAQItem key={idx} question={item.question} answer={item.answer} />
+            ))}
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }

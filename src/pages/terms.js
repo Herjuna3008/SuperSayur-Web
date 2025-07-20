@@ -1,28 +1,34 @@
-export default function TermsPage() {
-    return (
-      <div className="max-w-3xl mx-auto px-4 py-12">
-        <h1 className="text-2xl font-bold mb-6">Syarat &amp; Ketentuan</h1>
-        <p className="mb-4">
-          Dengan menggunakan layanan SuperSayur, Anda setuju untuk terikat dengan syarat dan ketentuan berikut:
-        </p>
-        <ol className="list-decimal list-inside mb-4">
-          <li className="mb-2">
-            Pemesanan dianggap berhasil setelah Anda menerima konfirmasi dari pihak SuperSayur. Pembatalan sepihak tanpa konfirmasi tidak diperkenankan.
-          </li>
-          <li className="mb-2">
-            Produk yang sudah dibeli tidak dapat dikembalikan, kecuali terdapat kerusakan atau kesalahan pengiriman dari pihak kami.
-          </li>
-          <li className="mb-2">
-            Kami berhak menolak atau membatalkan pesanan yang melanggar ketentuan atau terindikasi penipuan.
-          </li>
-          <li className="mb-2">
-            Informasi pribadi Anda akan kami jaga kerahasiaannya dan hanya digunakan untuk kepentingan pemesanan dan pengiriman.
-          </li>
-        </ol>
-        <p>
-          PasarSegar dapat mengubah syarat dan ketentuan ini sewaktu-waktu. Pelanggan disarankan untuk memeriksa halaman ini secara berkala.
-        </p>
-      </div>
-    );
-  }
-  
+import Head from "next/head";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
+export default function Terms() {
+  return (
+    <>
+      <Head>
+        <title>Syarat & Ketentuan | PasarSegar</title>
+      </Head>
+      <Navbar />
+      <main className="min-h-screen bg-white py-16 animate-fadeIn">
+        <section className="max-w-2xl mx-auto px-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-green-700 mb-6">
+            Syarat &amp; Ketentuan
+          </h1>
+          <div className="space-y-4 text-gray-700">
+            <p>
+              Dengan menggunakan layanan <span className="font-semibold text-green-700">SuperSayur</span>, Anda setuju dengan ketentuan berikut:
+            </p>
+            <ul className="list-decimal pl-6 space-y-1">
+              <li>Harga produk dapat berubah sewaktu-waktu mengikuti harga pasar.</li>
+              <li>Stok produk dapat berubah tanpa pemberitahuan sebelumnya.</li>
+              <li>Proses pengiriman dilakukan pada hari kerja dan menyesuaikan lokasi pengiriman.</li>
+              <li>Pembatalan pesanan dapat dilakukan sebelum proses pengiriman dimulai.</li>
+              <li>Segala keluhan terkait produk atau layanan dapat disampaikan melalui kontak resmi kami.</li>
+            </ul>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+}

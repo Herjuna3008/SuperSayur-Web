@@ -1,121 +1,114 @@
-import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
+import { useState } from "react";
+import Head from "next/head";
 
-export default function AdminProducts() {
+// Dummy produk admin (ganti fetch Supabase)
+const initialProducts = [
+  {
+    id: 1,
+    name: "Wortel Segar 1kg",
+    price: 20000,
+    stock: 12,
+    description: "Wortel pilihan, segar setiap hari.",
+    image_url: "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 2,
+    name: "Daging Sapi Premium 1kg",
+    price: 110000,
+    stock: 5,
+    description: "Daging sapi segar dan berkualitas.",
+    image_url: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80"
+  }
+];
+
+export default function AdminProduct() {
+  const [products, setProducts] = useState(initialProducts);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  // Check authentication on mount
-  useEffect(() => {
-    const sessionCheck = async () => {
-      const {
-        data: { session }
-      } = await supabase.auth.getSession();
-      if (!session) {
-        router.push("/admin/login");
-      }
-    };
-    sessionCheck();
-  }, [router]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
+  // Dummy delete
+  const handleDelete = (id) => {
+    if (window.confirm("Yakin ingin menghapus produk ini?")) {
       setLoading(true);
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .order("id", { ascending: true });
-      if (error) {
-        console.error("Error fetching products:", error);
-      } else {
-        setProducts(data);
-      }
-      setLoading(false);
-    };
-    fetchProducts();
-  }, []);
-
-  const handleDelete = async (id) => {
-    if (!confirm("Hapus produk ini?")) return;
-    const { error } = await supabase.from("products").delete().eq("id", id);
-    if (error) {
-      alert("Gagal menghapus produk: " + error.message);
-    } else {
-      setProducts(products.filter(p => p.id !== id));
+      setTimeout(() => {
+        setProducts(products.filter((p) => p.id !== id));
+        setLoading(false);
+      }, 600);
     }
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push("/");
-  };
-
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold">Admin - Kelola Produk</h1>
-        <button 
-          onClick={handleLogout} 
-          className="text-sm text-white bg-gray-600 px-3 py-1 rounded"
-        >
-          Logout
-        </button>
-      </div>
-      {loading ? (
-        <p>Memuat data produk...</p>
-      ) : (
-        <div>
-          <table className="w-full text-sm text-left border">
-            <thead className="bg-gray-200">
-              <tr>
-                <th className="p-2 border">ID</th>
-                <th className="p-2 border">Nama</th>
-                <th className="p-2 border">Kategori</th>
-                <th className="p-2 border">Harga</th>
-                <th className="p-2 border">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map(prod => (
-                <tr key={prod.id}>
-                  <td className="p-2 border">{prod.id}</td>
-                  <td className="p-2 border">{prod.name}</td>
-                  <td className="p-2 border">{prod.category}</td>
-                  <td className="p-2 border">Rp {prod.price}</td>
-                  <td className="p-2 border">
-                    <Link href={`/admin/products/${prod.id}`}>
-                      <span className="text-blue-600 hover:underline cursor-pointer mr-3">
-                        Edit
-                      </span>
-                    </Link>
-                    <button 
-                      onClick={() => handleDelete(prod.id)} 
-                      className="text-red-600 hover:underline"
-                    >
-                      Hapus
-                    </button>
-                  </td>
-                </tr>
-              ))}
-              {products.length === 0 && (
-                <tr>
-                  <td colSpan="5" className="p-2 text-center">
-                    Belum ada produk.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-          <div className="mt-4">
-            <Link href="/admin/products/new" className="inline-block bg-green-600 text-white px-4 py-2 rounded">
+    <>
+      <Head>
+        <title>Admin Produk | SuperSayur</title>
+      </Head>
+      <main className="min-h-screen bg-green-50 py-16 px-2 animate-fadeIn">
+        <section className="max-w-5xl mx-auto bg-white rounded-2xl shadow-md px-4 md:px-8 py-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-3">
+            <h1 className="text-2xl md:text-3xl font-bold text-green-700 mb-2">
+              Kelola Produk
+            </h1>
+            <Link href="/admin/products/new" className="inline-block bg-green-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-green-700 hover:scale-105 transition-transform">
               + Tambah Produk
             </Link>
           </div>
-        </div>
-      )}
-    </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-separate border-spacing-y-2 min-w-[600px]">
+              <thead>
+                <tr>
+                  <th className="px-3 py-2 bg-green-100 rounded-l-xl">Nama Produk</th>
+                  <th className="px-3 py-2 bg-green-100">Harga</th>
+                  <th className="px-3 py-2 bg-green-100">Stok</th>
+                  <th className="px-3 py-2 bg-green-100">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="py-8 text-center text-gray-400">
+                      Tidak ada produk.
+                    </td>
+                  </tr>
+                ) : (
+                  products.map((prod) => (
+                    <tr key={prod.id} className="shadow rounded-xl bg-white">
+                      <td className="px-3 py-2 rounded-l-xl font-semibold flex items-center gap-2">
+                        <img src={prod.image_url} alt={prod.name} className="w-10 h-10 object-cover rounded-xl shadow" />
+                        <span>{prod.name}</span>
+                      </td>
+                      <td className="px-3 py-2 text-green-700 font-bold">
+                        Rp {Number(prod.price).toLocaleString("id-ID")}
+                      </td>
+                      <td className="px-3 py-2">
+                        <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${prod.stock === 0 ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}>
+                          {prod.stock === 0 ? "Habis" : prod.stock}
+                        </span>
+                      </td>
+                      <td className="px-3 py-2 flex gap-2">
+                        <Link
+                          href={`/admin/products/${prod.id}`}
+                          className="inline-block bg-yellow-400 text-white px-3 py-1 rounded-full font-semibold shadow hover:bg-yellow-500 hover:scale-105 transition-transform text-xs"
+                        >
+                          ✏️ Edit
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(prod.id)}
+                          disabled={loading}
+                          className="bg-red-600 text-white px-3 py-1 rounded-full font-semibold shadow hover:bg-red-700 hover:scale-105 transition-transform text-xs"
+                        >
+                          🗑️ Hapus
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </>
   );
 }

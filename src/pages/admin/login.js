@@ -1,60 +1,75 @@
 import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function AdminLogin() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
+  // Dummy login, ganti sesuai integrasi Supabase
   const handleLogin = async (e) => {
     e.preventDefault();
-    setErrorMsg("");
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      setErrorMsg("Login gagal. Periksa kembali email dan password.");
-    } else {
-      // Redirect to admin products page on success
-      router.push("/admin/products");
-    }
+    setLoading(true);
+    setError("");
+    // Simulasi login berhasil
+    setTimeout(() => {
+      setLoading(false);
+      if (email === "admin@supersayur.com" && password === "password") {
+        router.push("/admin/product");
+      } else {
+        setError("Email atau password salah.");
+      }
+    }, 1200);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form 
-        onSubmit={handleLogin} 
-        className="bg-white p-6 rounded shadow-md w-full max-w-sm"
-      >
-        <h1 className="text-xl font-bold mb-4 text-center">Admin Login</h1>
-        {errorMsg && <p className="text-red-600 text-sm mb-3">{errorMsg}</p>}
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Email</label>
+    <>
+      <Head>
+        <title>Login Admin | PasarSegar</title>
+      </Head>
+      <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100 animate-fadeIn">
+        <form
+          onSubmit={handleLogin}
+          className="bg-white rounded-2xl shadow-lg px-8 py-10 max-w-sm w-full flex flex-col gap-5"
+        >
+          <h1 className="text-2xl font-bold text-green-700 mb-2 text-center">
+            Admin Login
+          </h1>
           <input
             type="email"
-            className="w-full border border-gray-300 px-3 py-2 rounded"
+            placeholder="Email"
+            autoComplete="username"
+            className="border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </div>
-        <div className="mb-6">
-          <label className="block text-sm font-medium mb-1">Password</label>
           <input
             type="password"
-            className="w-full border border-gray-300 px-3 py-2 rounded"
+            placeholder="Password"
+            autoComplete="current-password"
+            className="border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
-        <button 
-          type="submit" 
-          className="bg-green-600 text-white w-full py-2 rounded hover:bg-green-700"
-        >
-          Login
-        </button>
-      </form>
-    </div>
+          {error && (
+            <div className="text-red-600 text-center text-sm -mt-2">{error}</div>
+          )}
+          <button
+            type="submit"
+            disabled={loading}
+            className={`bg-green-600 text-white py-3 rounded-lg font-semibold shadow hover:bg-green-700 hover:scale-105 transition-transform duration-150 ${
+              loading ? "opacity-60 cursor-not-allowed" : ""
+            }`}
+          >
+            {loading ? "Memproses..." : "Masuk"}
+          </button>
+        </form>
+      </main>
+    </>
   );
 }
