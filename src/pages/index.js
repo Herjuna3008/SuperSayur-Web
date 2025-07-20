@@ -105,6 +105,22 @@ export default function Home() {
         </div>
       </section>
 
+      {/*FAQ Section*/}
+      <section className="py-16 bg-gray-50">
+      <div className="max-w-5xl mx-auto px-4">
+        <h2 className="text-2xl md:text-3xl font-bold text-green-700 text-center mb-10 animate-fadeIn">Frequently Asked Questions</h2>
+        <div className="text-center">Ada pertanyaan, kami punya jawabannya! Cari tahu lebih banyak tentang SuperSayur.</div>
+        <div className="flex justify-center mt-10">
+            <Link
+              href="/faq"
+              className="inline-block bg-gray-600 text-white px-8 py-3 rounded-full font-semibold shadow hover:bg-gray-500 hover:scale-105 transition-transform"
+            >
+              Baca FAQ &rarr;
+            </Link>
+          </div>
+      </div>
+      </section>
+
       <Footer />
     </>
   );
