@@ -1,7 +1,13 @@
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 
 export default function Footer() {
+  const [wa, setWA] = useState("");
+useEffect(() => {
+  fetch("/api/whatsapp").then(r => r.json()).then(data => setWA(data.number || ""));
+}, []);
+
   return (
     <footer className="bg-white border-t pt-10">
       {/* Atas */}
@@ -54,7 +60,7 @@ export default function Footer() {
           <div className="text-gray-500 mb-4">Pesan sayur & daging dari mana saja, kapan saja.</div>
           <div className="flex gap-3">
           <a
-            href="https://wa.me/6281234567890"
+            href={`https://wa.me/${wa}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-green-600 text-white px-7 py-3 rounded-full font-semibold shadow hover:bg-green-700 hover:scale-105 transition-transform text-lg mt-6"

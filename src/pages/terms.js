@@ -1,8 +1,14 @@
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function Terms() {
+  const [terms, setTerms] = useState("");
+  useEffect(() => {
+    fetch("/api/terms").then(r => r.json()).then(data => setTerms(data.content || ""));
+  }, []);
+
   return (
     <>
       <Head>
@@ -19,11 +25,7 @@ export default function Terms() {
               Dengan menggunakan layanan <span className="font-semibold text-green-700">SuperSayur</span>, Anda setuju dengan ketentuan berikut:
             </p>
             <ul className="list-decimal pl-6 space-y-1">
-              <li>Harga produk dapat berubah sewaktu-waktu mengikuti harga pasar.</li>
-              <li>Stok produk dapat berubah tanpa pemberitahuan sebelumnya.</li>
-              <li>Proses pengiriman dilakukan pada hari kerja dan menyesuaikan lokasi pengiriman.</li>
-              <li>Pembatalan pesanan dapat dilakukan sebelum proses pengiriman dimulai.</li>
-              <li>Segala keluhan terkait produk atau layanan dapat disampaikan melalui kontak resmi kami.</li>
+              <p>{`${terms}`}</p>
             </ul>
           </div>
         </section>

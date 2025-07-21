@@ -1,8 +1,14 @@
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function ContactPage() {
+  const [wa, setWA] = useState("");
+useEffect(() => {
+  fetch("/api/whatsapp").then(r => r.json()).then(data => setWA(data.number || ""));
+}, []);
+
   return (
     <>
       <Head>
@@ -19,8 +25,8 @@ export default function ContactPage() {
             </div>
             <div>
               <span className="font-bold">Telepon/WhatsApp: </span>
-              <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">
-                +62 812-3456-7890
+              <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">
+              +{wa}
               </a>
             </div>
             <div>
@@ -31,7 +37,7 @@ export default function ContactPage() {
             </div>
           </div>
           <a
-            href="https://wa.me/6281234567890"
+            href= {`https://wa.me/${wa}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-green-600 text-white px-7 py-3 rounded-full font-semibold shadow hover:bg-green-700 hover:scale-105 transition-transform text-lg mt-6"

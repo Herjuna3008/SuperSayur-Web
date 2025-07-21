@@ -1,9 +1,16 @@
+import { useEffect, useState } from "react";
+
 export default function ProductCard({ product }) {
+  const [wa, setWA] = useState("");
+useEffect(() => {
+  fetch("/api/whatsapp").then(r => r.json()).then(data => setWA(data.number || ""));
+}, []);
+
   return (
     <div className="bg-white rounded-2xl shadow-md hover:shadow-xl overflow-hidden transform transition-transform hover:scale-105 duration-300 animate-fadeIn group">
       <div className="relative">
         <img
-          src={product.image_url || "https://source.unsplash.com/400x300/?vegetable"}
+          src={product.image_url}
           alt={product.name}
           className="h-44 w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
@@ -28,7 +35,7 @@ export default function ProductCard({ product }) {
           </span>
         </div>
         <a
-          href={`https://wa.me/6281234567890?text=Saya ingin memesan ${encodeURIComponent(product.name)}`}
+          href={`https://wa.me/${wa}?text=Saya ingin memesan ${encodeURIComponent(product.name)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="block text-center mt-3 bg-green-600 text-white py-2 rounded-full font-semibold shadow hover:bg-green-700 hover:scale-105 transition-transform"

@@ -4,14 +4,12 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 
-// Contoh data kategori
-const categories = [
-  { key: "all", name: "Semua" },
-  { key: "sayur", name: "Sayur" },
-  { key: "daging", name: "Daging" }
-];
-
 export default function Products() {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    fetch("/api/categories").then(r => r.json()).then(setCategories);
+  }, []);
+  
   // Dummy produk, nanti tinggal fetch dari Supabase
   const [allProducts, setAllProducts] = useState([
     {

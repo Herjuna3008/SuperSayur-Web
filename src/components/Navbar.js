@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 
 const navLinks = [
@@ -13,6 +13,10 @@ const navLinks = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [wa, setWA] = useState("");
+  useEffect(() => {
+    fetch("/api/whatsapp").then(r => r.json()).then(data => setWA(data.number || ""));
+  }, []);
 
   return (
     <nav className="bg-green-700 text-white sticky top-0 z-50 shadow-md">
@@ -39,7 +43,7 @@ export default function Navbar() {
             </Link>
           ))}
           <a
-            href="https://wa.me/6281234567890"
+            href={`https://wa.me/${wa}`}
             target="_blank"
             rel="noopener noreferrer"
             className="ml-1 px-3 py-2 rounded-full bg-white text-green-700 font-semibold shadow hover:bg-green-100 hover:scale-105 transition-transform text-[15px]"
@@ -71,7 +75,7 @@ export default function Navbar() {
               </Link>
             ))}
             <a
-              href="https://wa.me/6281234567890"
+              href={`https://wa.me/${wa}`}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-2 px-4 py-2 rounded-full bg-white text-green-700 font-semibold shadow hover:bg-green-100 hover:scale-105 transition-transform"
